@@ -1,4 +1,4 @@
-package br.com.danielmota.financial_manager;
+package br.com.danielmota;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
