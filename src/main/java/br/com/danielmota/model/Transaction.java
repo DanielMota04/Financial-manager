@@ -20,7 +20,7 @@ public class Transaction implements Serializable {
     private Date date;
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false, length = 10)
-    private Enum<Type> type;
+    private Type type;
     @Column(name = "title", nullable = false)
     private String title;
     @Column(name = "value", nullable = false)
@@ -47,11 +47,11 @@ public class Transaction implements Serializable {
         this.date = date;
     }
 
-    public Enum<Type> getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(Enum<Type> type) {
+    public void setType(Type type) {
         this.type = type;
     }
 

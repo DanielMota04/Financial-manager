@@ -13,7 +13,7 @@ public class TransactionDTO implements Serializable {
     private Long id;
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date date;
-    private Enum<Type> type;
+    private Type type;
     private String title;
     private double value;
     private String Description;
@@ -34,11 +34,11 @@ public class TransactionDTO implements Serializable {
         this.date = date;
     }
 
-    public Enum<Type> getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(Enum<Type> type) {
+    public void setType(Type type) {
         this.type = type;
     }
 
