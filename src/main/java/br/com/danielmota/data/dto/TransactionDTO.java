@@ -4,15 +4,15 @@ import br.com.danielmota.enums.Type;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
 public class TransactionDTO implements Serializable {
     private static final long serialVersionUID = 1L;
-
     private Long id;
-    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-    private Date date;
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private LocalDate date;
     private Type type;
     private String title;
     private double value;
@@ -26,11 +26,11 @@ public class TransactionDTO implements Serializable {
         this.id = id;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

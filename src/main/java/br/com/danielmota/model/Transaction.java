@@ -4,6 +4,7 @@ import br.com.danielmota.enums.Type;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -17,7 +18,7 @@ public class Transaction implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "date", nullable = false)
-    private Date date;
+    private LocalDate date;
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false, length = 10)
     private Type type;
@@ -39,11 +40,11 @@ public class Transaction implements Serializable {
         this.id = id;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

@@ -1,13 +1,22 @@
 package br.com.danielmota.services;
 
 import br.com.danielmota.data.dto.TransactionDTO;
+import br.com.danielmota.enums.Type;
 import br.com.danielmota.model.Transaction;
 import br.com.danielmota.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.persistence.criteria.Predicate;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import static br.com.danielmota.mapper.ObjectMapper.parseListObjects;
 import static br.com.danielmota.mapper.ObjectMapper.parseObject;
 
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -18,10 +27,34 @@ public class TransactionService {
     @Autowired
     TransactionRepository repository;
 
-    public List<TransactionDTO> findAll(){
+    public Page<TransactionDTO> findAll(Type type, Integer year, Integer month, int page, int size, String sortBy, String sortDir){
         logger.info("Finding all transactions");
 
-        return parseListObjects(repository.findAll(), TransactionDTO.class);
+        Sort.Direction direction = "asc".equalsIgnoreCase(sortDir) ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, sortBy);
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        Specification<Transaction> spec = (root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (type != null){
+                predicates.add(criteriaBuilder.equal(root.get("type"), type));
+            }
+
+            if (year != null && month != null) {
+                LocalDate startDate = LocalDate.of(year, month, 1);
+                LocalDate endDate = YearMonth.of(year, month).atEndOfMonth();
+
+                predicates.add(criteriaBuilder.between(root.get("date"), startDate, endDate));
+            }
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        };
+
+        Page<Transaction> transactionPage = repository.findAll(spec, pageable);
+
+        return transactionPage.map(transaction -> parseObject(transaction, TransactionDTO.class));
     }
 
     public TransactionDTO findById(Long Id) throws Exception {
