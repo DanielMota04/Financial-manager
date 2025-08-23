@@ -43,10 +43,12 @@ public class TransactionController {
     }
 
     @PutMapping(
+            value = "/{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public TransactionDTO update(@RequestBody TransactionDTO transaction) throws Exception {
+    public TransactionDTO update(@PathVariable("id") Long id, @RequestBody TransactionDTO transaction) throws Exception {
+        transaction.setId(id);
         return service.update(transaction);
     }
 
