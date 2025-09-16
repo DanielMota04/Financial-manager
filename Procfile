@@ -1,1 +1,1 @@
-web: java -jar target/seu-app-0.0.1-SNAPSHOT.jar
+web: java -jar target/financial-manager-0.0.1-SNAPSHOT.jar
