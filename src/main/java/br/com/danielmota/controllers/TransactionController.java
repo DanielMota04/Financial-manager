@@ -47,9 +47,8 @@ public class TransactionController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public TransactionDTO update(@PathVariable("id") Long id, @RequestBody TransactionDTO transaction) throws Exception {
-        transaction.setId(id);
-        return service.update(transaction);
+    public TransactionDTO update(@PathVariable("id") Long id, @RequestBody TransactionDTO transaction) {
+        return service.update(id, transaction);
     }
 
     @DeleteMapping(path = "/{id}")
