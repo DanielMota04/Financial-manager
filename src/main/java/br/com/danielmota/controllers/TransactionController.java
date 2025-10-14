@@ -3,7 +3,6 @@ package br.com.danielmota.controllers;
 import br.com.danielmota.data.dto.TransactionDTO;
 import br.com.danielmota.enums.Type;
 import br.com.danielmota.services.TransactionService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/transactions")
 public class TransactionController {
-    @Autowired
     TransactionService service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -30,7 +28,7 @@ public class TransactionController {
 
     @GetMapping(value = "/{id}",
     produces = MediaType.APPLICATION_JSON_VALUE)
-    public TransactionDTO findById(@PathVariable("id") Long id) throws Exception {
+    public TransactionDTO findById(@PathVariable("id") Long id){
         return service.findById(id);
     }
 
@@ -52,7 +50,7 @@ public class TransactionController {
     }
 
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id") Long id) throws Exception {
+    public ResponseEntity<?> delete(@PathVariable("id") Long id){
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
