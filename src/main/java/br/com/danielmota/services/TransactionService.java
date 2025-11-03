@@ -1,5 +1,6 @@
 package br.com.danielmota.services;
 
+import br.com.danielmota.data.dto.DashboardDTO;
 import br.com.danielmota.data.dto.TransactionDTO;
 import br.com.danielmota.enums.Type;
 import br.com.danielmota.exception.TransactionNotFoundException;
@@ -14,6 +15,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 public class TransactionService {
 
@@ -23,6 +26,19 @@ public class TransactionService {
     public TransactionService(TransactionRepository repository, TransactionMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
+    }
+
+    public DashboardDTO getDashboardTotals(Integer year, Integer month) {
+        int queryYear = (year != null) ? year : LocalDate.now().getYear();
+        int queryMonth = (month != null) ? month : LocalDate.now().getMonthValue();
+
+        double income = repository.getSumByTypeAndDate(Type.INCOME, queryYear, queryMonth)
+                .orElse(0.0);
+
+        double outcome = repository.getSumByTypeAndDate(Type.OUTCOME, queryYear, queryMonth)
+                .orElse(0.0);
+
+        return new DashboardDTO(income, outcome);
     }
 
     public Page<TransactionDTO> findAll(Type type, Integer year, Integer month, int page, int size, String sortBy, String sortDir) {
