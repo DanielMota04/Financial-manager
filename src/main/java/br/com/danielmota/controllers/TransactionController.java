@@ -1,5 +1,6 @@
 package br.com.danielmota.controllers;
 
+import br.com.danielmota.data.dto.DashboardDTO;
 import br.com.danielmota.data.dto.TransactionDTO;
 import br.com.danielmota.enums.Type;
 import br.com.danielmota.services.TransactionService;
@@ -34,6 +35,14 @@ public class TransactionController {
     produces = MediaType.APPLICATION_JSON_VALUE)
     public TransactionDTO findById(@PathVariable("id") Long id){
         return service.findById(id);
+    }
+
+    @GetMapping(value = "/totals", produces = MediaType.APPLICATION_JSON_VALUE)
+    public DashboardDTO getTotals(
+            @RequestParam(value = "year", required = false) Integer year,
+            @RequestParam(value = "month", required = false) Integer month
+    ) {
+        return service.getDashboardTotals(year, month);
     }
 
     @PostMapping(
