@@ -23,12 +23,29 @@ public class AuthorizationService implements UserDetailsService {
     }
 
     public void register(RegisterDTO dto) {
+        if (dto.getNome() == null || dto.getNome().isBlank()) {
+            throw new IllegalArgumentException("O nome é obrigatório.");
+        }
+
+        if (dto.getEmail() == null || !dto.getEmail().contains("@")) {
+            throw new IllegalArgumentException("E-mail inválido.");
+        }
+
+        if (dto.getSenha() == null || dto.getSenha().length() < 6) {
+            throw new IllegalArgumentException("A senha deve ter pelo menos 6 caracteres.");
+        }
+
+        if (userRepository.existsByEmail(dto.getEmail())) {
+            throw new IllegalArgumentException("Este e-mail já está cadastrado.");
+        }
+
         User user = new User();
         user.setNome(dto.getNome());
         user.setEmail(dto.getEmail());
         user.setSenha(dto.getSenha());
         userRepository.save(user);
     }
+
 
     public boolean login(LoginDTO dto) {
         var user = userRepository.findByEmail(dto.getEmail());
