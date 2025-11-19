@@ -13,3 +13,8 @@ spring:
       hibernate:
     show-sql: false
     open-in-view: false
+JWT_SECRET: "JWT_SECRET=U2FsdGVkX1+4QnN1ZmY0NndpbmFoZXJlaXRoZWlwamRvZWpkb2VramRmZGZlZnRl"
+JWT_EXPIRATION: 86400000
+
+
+
