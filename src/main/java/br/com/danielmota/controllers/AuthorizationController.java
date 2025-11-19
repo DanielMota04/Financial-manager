@@ -15,16 +15,14 @@ public class AuthorizationController {
     private AuthorizationService authorizationService;
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegisterDTO dto) {
+    public ResponseEntity<?> register(@RequestBody RegisterDTO dto) {
         authorizationService.register(dto);
-        return ResponseEntity.ok("Usuário cadastrado com sucesso!");
+        return ResponseEntity.ok("Usuário registrado com sucesso");
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginDTO dto) {
-        boolean valid = authorizationService.login(dto);
-        return valid
-                ? ResponseEntity.ok("Login bem-sucedido!")
-                : ResponseEntity.status(401).body("Credenciais inválidas.");
+    public ResponseEntity<?> login(@RequestBody LoginDTO dto) {
+        String token = authorizationService.login(dto);
+        return ResponseEntity.ok(token);
     }
 }
